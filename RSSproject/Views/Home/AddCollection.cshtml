@@ -1,0 +1,22 @@
+﻿@model RSSproject.Models.MainCollection
+
+@{
+    ViewBag.Title = "AddCollection";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddCollection</h2>
+
+<div class="editPage">
+    @using (Html.BeginForm("AddCollection", "Home", FormMethod.Post))
+    {
+        <fieldset>
+            @Html.LabelFor(n => n.Name, "Name collection:")
+            <br />
+            @Html.EditorFor(model => model.Name)
+            <br /><br />
+            <p><input id="submitButton" class="btn btn-primary" type="submit" value="Отправить" /></p>
+
+        </fieldset>
+    }
+</div>

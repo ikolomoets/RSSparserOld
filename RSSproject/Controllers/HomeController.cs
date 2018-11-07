@@ -29,5 +29,25 @@ namespace RSSproject.Controllers
 
             return View();
         }
+
+
+        [HttpGet]
+        public ActionResult AddCollection()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddCollection(MainCollection collection)
+        {
+            if (collection != null)
+            {
+                db.MainCollections.Add(collection);
+                db.SaveChanges();
+            }
+
+
+            return RedirectToAction("Index");
+        }
     }
 }
