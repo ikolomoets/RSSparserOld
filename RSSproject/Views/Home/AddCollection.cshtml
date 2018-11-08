@@ -10,13 +10,14 @@
 <div class="editPage">
     @using (Html.BeginForm("AddCollection", "Home", FormMethod.Post))
     {
-        <fieldset>
-            @Html.LabelFor(n => n.Name, "Name collection:")
-            <br />
-            @Html.EditorFor(model => model.Name)
-            <br /><br />
-            <p><input id="submitButton" class="btn btn-primary" type="submit" value="Отправить" /></p>
+    <fieldset>
+        <div class="form-group">
+            <p>Введите имя коллекции: </p>
+            <input type="text" class="form-control" name="Name" value="" />
 
-        </fieldset>
+        </div>
+        <p><input id="submitButton" class="btn btn-primary" type="submit" value="Отправить" /></p>
+
+    </fieldset>
     }
 </div>

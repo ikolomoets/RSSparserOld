@@ -36,9 +36,9 @@
                             Regex rx = new Regex(pattern);
                             foreach (Match m in rx.Matches(item.Description))
                             {
-                                <img src="@m.Groups["url"].Value" />
+                                <img width="500" height="300" src="@m.Groups["url"].Value" />
                             }
-                            <p>@Regex.Replace(item.Description, "<.*?>", String.Empty);</p>
+                            <p>@Regex.Replace(item.Description, "<.*?>", String.Empty)</p>
 
                         }
                     </td>
