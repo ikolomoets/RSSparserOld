@@ -8,6 +8,9 @@ using System.Data.Entity;
 using System.Net;
 using System.Xml.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Web.UI;
+using System.Threading.Tasks;
 
 namespace RSSproject.Controllers
 {
@@ -15,6 +18,7 @@ namespace RSSproject.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+        [OutputCache(Duration = 60, Location = OutputCacheLocation.Server)]
         public ActionResult Index()
         {
             List<MainResource> resources = db.MainResources.
@@ -24,25 +28,20 @@ namespace RSSproject.Controllers
             IEnumerable<MainResource> gropedResources = gr.SelectMany(g => g);
 
 
-            List<MainCollection> collections = db.MainCollections.ToList();
-            //return View(gropedResources.ToList());
+            List<MainCollection> collections = db.MainCollections.Include(c => c.MainResources).ToList();
+            
             return View(collections);
         }
 
-        public ActionResult About()
+        private IQueryable<MainCollection> GetAllCollections()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            return db.MainCollections.AsQueryable();
         }
 
-        public ActionResult Contact()
+        private async Task<List<MainCollection>> GetAllColl()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return await GetAllCollections().ToListAsync();
         }
-
 
         [HttpGet]
         public ActionResult AddCollection()
@@ -66,7 +65,8 @@ namespace RSSproject.Controllers
         [HttpGet]
         public ActionResult Resource(string RSSURL, string RSSName)
         {
-            //return Content(RSSURL);
+            if (RSSURL == null) return RedirectToAction("Index");
+
             WebClient wclient = new WebClient();
             string RSSData = wclient.DownloadString(RSSURL);
 
@@ -75,8 +75,8 @@ namespace RSSproject.Controllers
             var RSSFeedData = (from x in xml.Descendants("item")
                                let bytesTitle = Encoding.Default.GetBytes(((string)x.Element("title")))
                                let bytesDesc = Encoding.Default.GetBytes(((string)x.Element("description")))
-
-                               select new RSSFeed
+                               
+            select new RSSFeed
                                {
                                    Title = Encoding.UTF8.GetString(bytesTitle),
                                    Link = ((string)x.Element("link")),
@@ -89,5 +89,23 @@ namespace RSSproject.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        public ActionResult AddResource()
+        {
+            ViewBag.collections = db.MainCollections.Include(c => c.MainResources).ToList();
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult AddResource(MainResource mainResource)
+        {
+            db.MainResources.Add(mainResource);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+            //return Content(mainResource.ResourceName.ToString());
+        }
     }
 }

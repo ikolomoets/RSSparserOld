@@ -3,26 +3,30 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Home Page";
 }
-<link href="~/Content/bootstrap.css" rel="stylesheet" />
 
 <br />
 
 
-<h3>Subscribes:</h3>
+<h3>Коллекции:</h3>
+
+<br />
 
 @foreach (var item in Model)
 {
-    <div class="dropdown show">
-        <button class="col btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div class="btn-group dropright">
+        <button class="col btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             @item.Name
         </button>
-        <p></p>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+        <div class="dropdown-menu">
             @foreach (var res in item.MainResources)
             {
-                @Html.ActionLink(@res.ResourceName, "Resource", new { RSSURL = @res.URL, RSSName = @res.ResourceName.ToString() })
-                <br />
+                <div class="col dropdown-item">
+                    @Html.ActionLink(@res.ResourceName, "Resource", new { RSSURL = @res.URL, RSSName = @res.ResourceName.ToString() })
+                </div>
             }
         </div>
+
     </div>
+    <p></p>
 }
