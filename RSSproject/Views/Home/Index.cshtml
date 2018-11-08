@@ -1,31 +1,36 @@
-﻿@model IEnumerable<RSSproject.Models.MainResource>
+﻿@model IEnumerable<RSSproject.Models.MainCollection>
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Home Page";
 }
 
-<script src="https://code.jquery.com/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-<br />
-
-Collections:
 <br />
 
 
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Dropdown button
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
+<h3>Subscribes:</h3>
+
+@foreach (var item in Model)
+{
+    <div class="dropdown show">
+        <button class="col btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @item.Name
+        </button>
+        <p></p>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            @foreach (var res in item.MainResources)
+            {
+                <a class="dropdown-item" href="#">@res.URL</a>
+                <br />
+            }
+        </div>
     </div>
-</div>
+}
 
-<table>
+
+
+<!--
+<table class="table table-dark">
     <tr>
-        <th>URL</th>
         <th>Collectoin name</th>
         <th></th>
     </tr>
@@ -34,10 +39,7 @@ Collections:
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.URL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MainCollection.Name)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
@@ -46,3 +48,4 @@ Collections:
         </tr>
     }
 </table>
+-->

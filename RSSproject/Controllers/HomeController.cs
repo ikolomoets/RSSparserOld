@@ -19,8 +19,11 @@ namespace RSSproject.Controllers
 
             var gr = resources.GroupBy(r => r.MainCollection_Id);
             IEnumerable<MainResource> gropedResources = gr.SelectMany(g => g);
-            
-            return View(gropedResources.ToList());
+
+
+            List<MainCollection> collections = db.MainCollections.ToList();
+            //return View(gropedResources.ToList());
+            return View(collections);
         }
 
         public ActionResult About()
