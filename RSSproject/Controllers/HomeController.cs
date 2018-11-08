@@ -5,6 +5,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using System.Net;
+using System.Xml.Linq;
+using System.Text;
 
 namespace RSSproject.Controllers
 {
@@ -58,6 +61,32 @@ namespace RSSproject.Controllers
 
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Resource(string RSSURL, string RSSName)
+        {
+            //return Content(RSSURL);
+            WebClient wclient = new WebClient();
+            string RSSData = wclient.DownloadString(RSSURL);
+
+            XDocument xml = XDocument.Parse(RSSData);
+
+            var RSSFeedData = (from x in xml.Descendants("item")
+                               let bytesTitle = Encoding.Default.GetBytes(((string)x.Element("title")))
+                               let bytesDesc = Encoding.Default.GetBytes(((string)x.Element("description")))
+
+                               select new RSSFeed
+                               {
+                                   Title = Encoding.UTF8.GetString(bytesTitle),
+                                   Link = ((string)x.Element("link")),
+                                   Description = Encoding.UTF8.GetString(bytesDesc),
+                                   PubDate = ((string)x.Element("pubDate"))
+                               });
+            ViewBag.RSSFeed = RSSFeedData;
+            ViewBag.URL = RSSURL;
+            ViewBag.RSSName = RSSName;
+            return View();
         }
 
     }

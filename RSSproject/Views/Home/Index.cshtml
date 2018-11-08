@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Home Page";
 }
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
 
 <br />
 
@@ -19,33 +20,9 @@
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             @foreach (var res in item.MainResources)
             {
-                <a class="dropdown-item" href="#">@res.URL</a>
+                @Html.ActionLink(@res.ResourceName, "Resource", new { RSSURL = @res.URL, RSSName = @res.ResourceName.ToString() })
                 <br />
             }
         </div>
     </div>
 }
-
-
-
-<!--
-<table class="table table-dark">
-    <tr>
-        <th>Collectoin name</th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
-</table>
--->

@@ -10,6 +10,8 @@ namespace RSSproject.Models
     {
         public int Id { get; set; }
 
+        public string ResourceName { get; set; }
+
         public string URL { get; set; }
 
         public int? MainCollection_Id { get; set; }
