@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace RSSproject.Controllers
 {
@@ -13,7 +14,13 @@ namespace RSSproject.Controllers
 
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            List<MainResource> resources = db.MainResources.
+                Include(c => c.MainCollection).ToList();
+
+            var gr = resources.GroupBy(r => r.MainCollection_Id);
+            IEnumerable<MainResource> gropedResources = gr.SelectMany(g => g);
+            
+            return View(gropedResources.ToList());
         }
 
         public ActionResult About()
@@ -49,5 +56,6 @@ namespace RSSproject.Controllers
 
             return RedirectToAction("Index");
         }
+
     }
 }

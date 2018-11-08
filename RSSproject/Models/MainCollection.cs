@@ -10,5 +10,12 @@ namespace RSSproject.Models
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public ICollection<MainResource> MainResources { get; set; }
+
+        public MainCollection()
+        {
+            MainResources = new List<MainResource>();
+        }
     }
 }
