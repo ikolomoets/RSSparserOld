@@ -15,33 +15,35 @@
 @using (Html.BeginForm("AddResource", "Home", FormMethod.Post))
 {
 
-<fieldset>
-    <div class="btn-group form-group" data-toggle="buttons">
+    <p>Выберите категорию: </p>
 
-        @foreach (var item in ViewBag.collections)
-        {
-            <label class="btn btn-primary active">
+    <fieldset>
+        <div class="btn-group form-group" data-toggle="buttons">
 
-                <input class="form-control" hidden type="radio" autocomplete="off" name="MainCollection_Id" value=@item.Id>
+            @foreach (var item in ViewBag.collections)
+            {
+                <label class="btn btn-primary active">
 
-                @item.Name
-            </label>
-        }
-    </div>
+                    <input class="form-control" checked="checked" hidden type="radio" autocomplete="off" name="MainCollection_Id" value=@item.Id>
 
-
-
-    <div class="form-group">
-        <p>Введите имя ресурса: </p>
-        <input type="text" class="form-control" name="ResourceName" value="" />
+                    @item.Name
+                </label>
+            }
+        </div>
 
 
-        <p>Введите адрес: </p>
-        <input type="text" class="form-control" name="URL" value="" />
 
-    </div>
+        <div class="form-group">
+            <p>Введите имя ресурса: </p>
+            <input type="text" class="form-control" name="ResourceName" value="" />
+
+
+            <p>Введите адрес: </p>
+            <input type="text" class="form-control" name="URL" value="" />
+
+        </div>
 
         <p><input id="submitButton" class="btn btn-primary" type="submit" value="Подтвердить" /></p>
 
-</fieldset>
+    </fieldset>
 }

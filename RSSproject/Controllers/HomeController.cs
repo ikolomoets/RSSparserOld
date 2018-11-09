@@ -19,29 +19,14 @@ namespace RSSproject.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
 
         [OutputCache(Duration = 60, Location = OutputCacheLocation.Server)]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            List<MainResource> resources = db.MainResources.
-                Include(c => c.MainCollection).ToList();
 
-            var gr = resources.GroupBy(r => r.MainCollection_Id);
-            IEnumerable<MainResource> gropedResources = gr.SelectMany(g => g);
-
-
-            List<MainCollection> collections = db.MainCollections.Include(c => c.MainResources).ToList();
+            List<MainCollection> collections = await db.MainCollections.Include(c => c.MainResources).ToListAsync();
             
             return View(collections);
         }
 
-        private IQueryable<MainCollection> GetAllCollections()
-        {
-            return db.MainCollections.AsQueryable();
-        }
-
-        private async Task<List<MainCollection>> GetAllColl()
-        {
-            return await GetAllCollections().ToListAsync();
-        }
 
         [HttpGet]
         public ActionResult AddCollection()
@@ -91,9 +76,9 @@ namespace RSSproject.Controllers
 
 
         [HttpGet]
-        public ActionResult AddResource()
+        public async Task<ActionResult> AddResource()
         {
-            ViewBag.collections = db.MainCollections.Include(c => c.MainResources).ToList();
+            ViewBag.collections = await db.MainCollections.Include(c => c.MainResources).ToListAsync();
 
             return View();
         }
@@ -105,7 +90,6 @@ namespace RSSproject.Controllers
             db.MainResources.Add(mainResource);
             db.SaveChanges();
             return RedirectToAction("Index");
-            //return Content(mainResource.ResourceName.ToString());
         }
     }
 }

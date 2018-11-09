@@ -1,11 +1,11 @@
 ﻿@model RSSproject.Models.MainCollection
 
 @{
-    ViewBag.Title = "AddCollection";
+    ViewBag.Title = "Add collection";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>AddCollection</h2>
+<h2>Add сollection</h2>
 
 <div class="editPage">
     @using (Html.BeginForm("AddCollection", "Home", FormMethod.Post))
@@ -16,7 +16,7 @@
             <input type="text" class="form-control" name="Name" value="" />
 
         </div>
-        <p><input id="submitButton" class="btn btn-primary" type="submit" value="Отправить" /></p>
+        <p><input id="submitButton" class="btn btn-primary" type="submit" value="Подтвердить" /></p>
 
     </fieldset>
     }
